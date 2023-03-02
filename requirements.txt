@@ -1,0 +1,5 @@
+celery
+redis
+fastapi
+flower
+uvicorn

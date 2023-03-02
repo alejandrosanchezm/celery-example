@@ -1,8 +1,13 @@
 from celery import Celery
 from celery.schedules import schedule   
 from datetime import timedelta
-from functools import cached_property
 import logging
+# from functools import cached_property
+
+"""
+Para futuro: permitirá añadir características en la configuración
+de las tareas que permita hacerlas relanzables de manera manual
+por el usuario, o hacer que almacene (o no) logs de resultados.
 
 def tasks_save_results(x):
     if x[1]['logged'] is True:
@@ -11,9 +16,6 @@ def tasks_save_results(x):
 def relaunchable(x):
     if x[1]['user_retry'] is True:
         return x
-    
-def crontab(**args):
-    return schedule(timedelta(**args))
 
 @cached_property
 def relaunchable_tasks():
@@ -22,7 +24,11 @@ def relaunchable_tasks():
 @cached_property
 def relaunchable_tasks():
     return filter(tasks_save_results, Config.beat_schedule.items())
-
+"""
+    
+def crontab(**args):
+    return schedule(timedelta(**args))
+    
 class Config:
 
     beat_schedule = {
@@ -64,10 +70,6 @@ def make_celery(app):
 
     """
     Sirve para la creación de la cola de peticiones de celery.
-    :param app: Aplicación Flask.
-    :type app: Flask Application.
-    :return: cola de tareas Celery.
-    :rtype: Celery Object.
     """
     celery = Celery(
         app,
@@ -84,3 +86,4 @@ def make_celery(app):
     celery.Task = ContextTask
     
     return celery
+
